@@ -29,7 +29,7 @@ START_TEST(test_load_shape) {
 END_TEST
 
 START_TEST(test_init_figures) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_O;

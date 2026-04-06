@@ -32,26 +32,28 @@ typedef enum {
 } brick_state;
 
 void user_input(user_action_t *action, int user_input, bool hold);
-void sigact_frog(user_action_t sig, brick_state *state, game_info_t *stats,
-                 board_t *map, pos_t *frog_pos);
-void sigact_tetris(game_info_t *filed, user_action_t sig, brick_state *state);
-void move_left(game_info_t *field);
-void move_right(game_info_t *field);
-void hard_drop(game_info_t *figure, brick_state *state);
-void rotate(game_info_t *figure);
-void spawn_figure(game_info_t *field, brick_state *state);
+void sigact_tetris(brick_stats_t *stats, field_info_t *filed, user_action_t sig,
+                   brick_state *state);
+void move_left(field_info_t *field);
+void move_right(field_info_t *field);
+void hard_drop(field_info_t *figure, brick_state *state);
+void rotate(field_info_t *figure);
+void spawn_figure(field_info_t *field, brick_state *state);
 void on_start_state_tetris(user_action_t sig, brick_state *state);
-void on_spawn_state_tetris(game_info_t *figure, brick_state *state);
-void on_moving_state_tetris(game_info_t *figure, user_action_t sig,
+void on_spawn_state_tetris(field_info_t *figure, brick_state *state);
+void on_moving_state_tetris(brick_stats_t *stats, field_info_t *figure,
+                            user_action_t sig, brick_state *state);
+void on_shifting_state_tetris(field_info_t *figure, brick_state *state);
+void on_attach_state_tetris(brick_stats_t *stats, field_info_t *figure,
                             brick_state *state);
-void on_shifting_state_tetris(game_info_t *figure, brick_state *state);
-void on_attach_state_tetris(game_info_t *figure, brick_state *state);
 void on_paused_state_tetris(user_action_t sig, brick_state *state);
-void on_gameover_state_tetris(game_info_t *field, user_action_t sig,
-                              brick_state *state);
-void on_win_state_tetris(game_info_t *field, user_action_t sig,
-                         brick_state *state);
-void on_exit_state_tetris(game_info_t *game, const brick_state *state);
-void update_current_state(game_info_t *field, brick_state *state);
+void on_gameover_state_tetris(brick_stats_t *stats, field_info_t *field,
+                              user_action_t sig, brick_state *state);
+void on_win_state_tetris(brick_stats_t *stats, field_info_t *field,
+                         user_action_t sig, brick_state *state);
+void on_exit_state_tetris(brick_stats_t *stats, field_info_t *game,
+                          const brick_state *state);
+void update_current_state(brick_stats_t *stats, field_info_t *field,
+                          brick_state *state);
 
 #endif

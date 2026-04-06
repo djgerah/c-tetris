@@ -80,7 +80,7 @@ START_TEST(test_pause_state) {
 END_TEST
 
 START_TEST(test_shifting_state_attach) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = SHIFTING;
@@ -96,7 +96,7 @@ START_TEST(test_shifting_state_attach) {
 END_TEST
 
 START_TEST(test_sigact_start) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = START;
@@ -108,7 +108,7 @@ START_TEST(test_sigact_start) {
 END_TEST
 
 START_TEST(test_sigact_spawn) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = SPAWN;
@@ -120,7 +120,7 @@ START_TEST(test_sigact_spawn) {
 END_TEST
 
 START_TEST(test_sigact_shifting) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = SHIFTING;
@@ -132,7 +132,7 @@ START_TEST(test_sigact_shifting) {
 END_TEST
 
 START_TEST(test_sigact_attach) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = ATTACH;
@@ -146,7 +146,7 @@ START_TEST(test_sigact_attach) {
 END_TEST
 
 START_TEST(test_gameover_restart) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = GAMEOVER;
@@ -158,7 +158,7 @@ START_TEST(test_gameover_restart) {
 END_TEST
 
 START_TEST(test_on_gameover_state_escape) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = GAMEOVER;
@@ -170,7 +170,7 @@ START_TEST(test_on_gameover_state_escape) {
 END_TEST
 
 START_TEST(test_on_gameover_state) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = GAMEOVER;
@@ -182,7 +182,7 @@ START_TEST(test_on_gameover_state) {
 END_TEST
 
 START_TEST(test_move_left_success) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_O;
@@ -200,7 +200,7 @@ START_TEST(test_move_left_success) {
 END_TEST
 
 START_TEST(test_move_left_blocked) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_O;
@@ -223,7 +223,7 @@ START_TEST(test_move_left_blocked) {
 END_TEST
 
 START_TEST(test_move_right_success) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_O;
@@ -241,7 +241,7 @@ START_TEST(test_move_right_success) {
 END_TEST
 
 START_TEST(test_move_right_blocked) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_O;
@@ -264,7 +264,7 @@ START_TEST(test_move_right_blocked) {
 END_TEST
 
 START_TEST(test_hard_drop) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
   brick_state state = MOVING;
 
@@ -282,7 +282,7 @@ START_TEST(test_hard_drop) {
 END_TEST
 
 START_TEST(test_rotate) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_T;
@@ -303,7 +303,7 @@ START_TEST(test_rotate) {
 END_TEST
 
 START_TEST(test_rotate_square) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_O;
@@ -321,7 +321,7 @@ START_TEST(test_rotate_square) {
 END_TEST
 
 START_TEST(test_spawn_figure_success) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
   brick_state state = SPAWN;
 
@@ -335,7 +335,7 @@ START_TEST(test_spawn_figure_success) {
 END_TEST
 
 START_TEST(test_spawn_figure_gameover) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
   brick_state state = SPAWN;
 
@@ -356,7 +356,7 @@ START_TEST(test_spawn_figure_gameover) {
 END_TEST
 
 START_TEST(test_on_attach_state) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = ATTACH;
@@ -370,7 +370,7 @@ START_TEST(test_on_attach_state) {
 END_TEST
 
 START_TEST(test_on_exit_state) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = EXIT;
@@ -382,7 +382,7 @@ START_TEST(test_on_exit_state) {
 END_TEST
 
 START_TEST(test_on_spawn_state) {
-  game_info_t field;
+  field_info_t field;
   init_tetris_game(&field);
   brick_state state = SPAWN;
 
@@ -393,7 +393,7 @@ START_TEST(test_on_spawn_state) {
 END_TEST
 
 START_TEST(test_on_moving_state_action) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = MOVING;
@@ -405,7 +405,7 @@ START_TEST(test_on_moving_state_action) {
 END_TEST
 
 START_TEST(test_on_moving_state_pause) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = MOVING;
@@ -417,7 +417,7 @@ START_TEST(test_on_moving_state_pause) {
 END_TEST
 
 START_TEST(test_on_moving_state_tetris_Nosig) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = MOVING;
@@ -431,7 +431,7 @@ START_TEST(test_on_moving_state_tetris_Nosig) {
 END_TEST
 
 START_TEST(test_on_moving_state_move_left) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = MOVING;
@@ -445,7 +445,7 @@ START_TEST(test_on_moving_state_move_left) {
 END_TEST
 
 START_TEST(test_on_moving_state_move_right) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = MOVING;
@@ -459,7 +459,7 @@ START_TEST(test_on_moving_state_move_right) {
 END_TEST
 
 START_TEST(test_on_moving_state_hard_drop) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = MOVING;
@@ -471,7 +471,7 @@ START_TEST(test_on_moving_state_hard_drop) {
 END_TEST
 
 START_TEST(test_on_moving_state_down) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = MOVING;
@@ -486,7 +486,7 @@ START_TEST(test_on_moving_state_down) {
 END_TEST
 
 START_TEST(test_on_moving_state_escape) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = MOVING;
@@ -507,7 +507,7 @@ START_TEST(test_on_paused_state) {
 END_TEST
 
 START_TEST(test_sigact_moving) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = MOVING;
@@ -519,7 +519,7 @@ START_TEST(test_sigact_moving) {
 END_TEST
 
 START_TEST(test_sigact_paused) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = PAUSED;
@@ -531,7 +531,7 @@ START_TEST(test_sigact_paused) {
 END_TEST
 
 START_TEST(test_sigact_gameover) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = GAMEOVER;
@@ -543,7 +543,7 @@ START_TEST(test_sigact_gameover) {
 END_TEST
 
 START_TEST(test_sigact_exit) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = EXIT;
@@ -555,7 +555,7 @@ START_TEST(test_sigact_exit) {
 END_TEST
 
 START_TEST(test_on_win_state_restart) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = WIN;
@@ -567,7 +567,7 @@ START_TEST(test_on_win_state_restart) {
 END_TEST
 
 START_TEST(test_on_win_state_exit) {
-  game_info_t field;
+  field_info_t field;
 
   init_tetris_game(&field);
   brick_state state = WIN;

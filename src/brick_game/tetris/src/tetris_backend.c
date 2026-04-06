@@ -5,7 +5,7 @@
 #include "../../../include/brick_frontend.h"
 #include "../include/tetris_shapes.h"
 
-void level_up(game_info_t *tetris) {
+void level_up(brick_stats_t *tetris) {
   int level = (tetris->score / 600) + 1;
 
   if (level > 10) {
@@ -19,7 +19,7 @@ void level_up(game_info_t *tetris) {
   update_timeout(tetris->speed);
 }
 
-void add_score(int lines, game_info_t *tetris, brick_state *state) {
+void add_score(int lines, brick_stats_t *tetris, brick_state *state) {
   int score = 0;
 
   if (lines == 1) {
@@ -47,7 +47,7 @@ void add_score(int lines, game_info_t *tetris, brick_state *state) {
   level_up(tetris);
 }
 
-void stamp_figure(game_info_t *field, int target[TETRIS_N][TETRIS_M]) {
+void stamp_figure(field_info_t *field, int target[TETRIS_N][TETRIS_M]) {
   for (int row = 0; row < SHAPE_H; row++) {
     for (int col = 0; col < SHAPE_W; col++) {
       if (!field->curr.matrix[row][col]) continue;
@@ -62,21 +62,21 @@ void stamp_figure(game_info_t *field, int target[TETRIS_N][TETRIS_M]) {
   }
 }
 
-void lock_figure(game_info_t *field) {
+void lock_figure(field_info_t *field) {
   stamp_figure(field, field->figures_placed);
 }
 
-void overlay_active_figure(game_info_t *field, bool show_figure) {
+void overlay_active_figure(field_info_t *field, bool show_figure) {
   if (show_figure) {
     stamp_figure(field, field->field);
   }
 }
 
-void update_field(game_info_t *field) {
+void update_field(field_info_t *field) {
   memset(field->field, 0, sizeof(field->field));
 }
 
-void build_field(game_info_t *field) {
+void build_field(field_info_t *field) {
   update_field(field);
 
   for (int y = 0; y < TETRIS_N; y++) {
@@ -88,7 +88,7 @@ void build_field(game_info_t *field) {
   }
 }
 
-void shift_down(game_info_t *field, int start) {
+void shift_down(field_info_t *field, int start) {
   for (int row = start; row > 0; row--) {
     memcpy(field->figures_placed[row], field->figures_placed[row - 1],
            sizeof(field->figures_placed[row]));
@@ -97,7 +97,8 @@ void shift_down(game_info_t *field, int start) {
   memset(field->figures_placed[0], 0, sizeof(field->figures_placed[0]));
 }
 
-void clear_lines(game_info_t *field, brick_state *state) {
+void clear_lines(brick_stats_t *stats, field_info_t *field,
+                 brick_state *state) {
   int cleared = 0;
 
   for (int y = TETRIS_N - 1; y >= 0; y--) {
@@ -119,7 +120,7 @@ void clear_lines(game_info_t *field, brick_state *state) {
   }
 
   if (cleared > 0) {
-    add_score(cleared, field, state);
+    add_score(cleared, stats, state);
   }
 }
 
@@ -155,7 +156,7 @@ void transpose_matrix(int matrix[SHAPE_H][SHAPE_W],
   }
 }
 
-bool figure_dropping(game_info_t *field) {
+bool figure_dropping(field_info_t *field) {
   bool rc = TRUE;
 
   if (check_collide(field->figures_placed, field->curr.pos.x,
@@ -168,7 +169,8 @@ bool figure_dropping(game_info_t *field) {
   return rc;
 }
 
-void render_game(game_info_t *field, const brick_state *state) {
+void render_game(brick_stats_t *stats, field_info_t *field,
+                 const brick_state *state) {
   bool condition = (*state == SPAWN || *state == MOVING || *state == SHIFTING ||
                     *state == ATTACH || *state == PAUSED ||
                     *state == GAMEOVER || *state == EXIT);
@@ -177,12 +179,12 @@ void render_game(game_info_t *field, const brick_state *state) {
   overlay_active_figure(field, condition);
   print_field(field->field);
   preview_next_figure(field);
-  print_stats(tetris, field);
+  print_stats(tetris, stats);
 
   refresh();
 }
 
-void tetris_stats_init(game_info_t *tetris, brick_state *state) {
+void tetris_stats_init(brick_stats_t *tetris, brick_state *state) {
   tetris->score = 0;
   read_high_score(&tetris->high_score, state);
   tetris->level = 1;
@@ -207,7 +209,7 @@ void init_figures(figure_t *curr_figure, figure_t *next_figure) {
   load_shape(next_figure);
 }
 
-void init_tetris_game(game_info_t *tetris) {
+void init_tetris_game(field_info_t *tetris) {
   memset(tetris->field, 0, sizeof(tetris->field));
   memset(tetris->figures_placed, 0, sizeof(tetris->figures_placed));
   memset(tetris->next.matrix, 0, sizeof(tetris->next.matrix));

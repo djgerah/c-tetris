@@ -14,16 +14,10 @@
 
 #define GET_USER_INPUT getch()
 
-#define PRINT_FROG(x, y) mvprintw(BOARDS_BEGIN + (y), BOARDS_BEGIN + (x), "@")
 #define MVPRINTW(y, x, ...) \
   mvprintw(BOARDS_BEGIN + (y), BOARDS_BEGIN + (x), __VA_ARGS__)
 #define MVADDCH(y, x, c) mvaddch(BOARDS_BEGIN + (y), BOARDS_BEGIN + (x), c)
-#define CLEAR_BACKPOS(y, x) mvaddch(BOARDS_BEGIN + (y), BOARDS_BEGIN + (x), ' ')
 
-#define YOU_WON "tests/game_progress/you_won.txt"
-#define YOU_LOSE "tests/game_progress/you_lose.txt"
-
-#define LEVEL_DIR "../brick_game/frogger/tests/levels/level_"
 #define WELCOMING "WELCOME"
 #define INTRO_MESSAGE "Press ENTER"
 #define GAMEOVER_MESSAGE "YOU LOSE"
@@ -32,20 +26,12 @@
 #define PAUSE_HINT "P for pause"
 #define CLOSE_MESSAGE "Closing..."
 #define EXIT_MESSAGE "exit by ESC"
-#define INTRO_MESSAGE_LEN 11
-#define LEVEL_CNT 5
-
-#define LEVELNAME_MAX ((sizeof(LEVEL_DIR) - 1) + 11 + (sizeof(".txt") - 1))
-
-#define MAX_WIN_COUNT 10
 
 #define ROWS_MAP 21
 #define COLS_MAP 90
 
 #define BOARDS_BEGIN 2
 
-#define FROGSTART_X (BOARD_M / 2)
-#define FROGSTART_Y (BOARD_N)
 #define INITIAL_TIMEOUT 150
 #define BASE_TIMEOUT 500
 #define MIN_TIMEOUT 50
@@ -65,9 +51,6 @@
 #define SHAPE_H 5
 #define SHAPE_W 5
 #define SHAPE_COUNT 7
-
-#define BANNER_N 10
-#define BANNER_M 100
 
 #define SUCCESS 0
 #define ERROR 1

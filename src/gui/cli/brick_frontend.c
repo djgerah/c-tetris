@@ -1,17 +1,7 @@
 #include "../../include/brick_frontend.h"
 
 #include <ncurses.h>
-#include <string.h>
-
-void print_level_error() {
-  clear();
-
-  MVPRINTW(0, 0, "An error occured openning level file!");
-  MVPRINTW(2, 0, "Please check ./tests/ directory.");
-  MVPRINTW(3, 0, "There should be 5 level files named level_(1-5).txt.");
-  MVPRINTW(4, 0, "Also try to open the game nearby ./tests/ directory.");
-  MVPRINTW(6, 0, "Press any key to exit.");
-}
+// #include <string.h>
 
 void print_file_error() {
   clear();
@@ -44,7 +34,7 @@ void print_overlay(game_type game) {
   MVPRINTW(8, BOARD_X + 5, "SCORE:");
   MVPRINTW(11, BOARD_X + 5, "RECORD:");
 
-  if (game == frogger) {
+  if (game != tetris) {
     print_rectangle(10, 12, BOARD_X + 3, BOARD_X + HUD_WIDTH + 5);
     MVPRINTW(11, BOARD_X + 5, "LIVES:");
   }
@@ -72,90 +62,18 @@ void print_rectangle(int top_y, int bottom_y, int left_x, int right_x) {
   MVADDCH(bottom_y, x, ACS_LRCORNER);
 }
 
-void print_stats(game_type game, game_info_t *stats) {
+void print_stats(game_type game, brick_stats_t *stats) {
   MVPRINTW(2, BOARD_X + 11, "%5d", stats->level);
   MVPRINTW(5, BOARD_X + 11, "%5d", stats->speed);
   MVPRINTW(8, BOARD_X + 11, "%5d", stats->score);
   MVPRINTW(11, BOARD_X + 11, "%5d", stats->high_score);
 
-  if (game == frogger) {
+  if (game != tetris) {
     MVPRINTW(11, BOARD_X + 11, "%5d", stats->lives);
   }
 }
 
-void print_board(const board_t *game, const pos_t *frog) {
-  print_cars(game);
-  PRINT_FROG(frog->x, frog->y);
-}
-
-void print_cars(const board_t *game) {
-  for (int i = MAP_PADDING + 1; i < BOARD_Y - MAP_PADDING + 1; i++) {
-    if (i % 2 == (MAP_PADDING + 1) % 2) {
-      for (int j = 1; j < BOARD_X + 1; j++) MVADDCH(i, j, ACS_BLOCK);
-    } else {
-      for (int j = 1; j < BOARD_X + 1; j++) {
-        if (game->ways[i - MAP_PADDING - 1][j - 1] == '0')
-          MVADDCH(i, j, ' ');
-        else
-          MVADDCH(i, j, ']');
-      }
-    }
-  }
-}
-
-void print_finished(const board_t *game) {
-  for (int i = 0; i < BOARD_X; i++) {
-    if (game->finish[i] == '0')
-      MVADDCH(1, i + 1, ACS_BLOCK);
-    else
-      MVADDCH(1, i + 1, ' ');
-  }
-}
-
-void print_banner(const game_info_t *stats) {
-  banner_t banner;
-
-  memset(banner.matrix, 0, (BANNER_N + 1) * (BANNER_M + 1));
-
-  clear();
-
-  if (!(read_banner(stats, &banner))) {
-    for (int i = 0; i < BANNER_N; i++)
-      for (int j = 0; j < BANNER_M; j++)
-        if (banner.matrix[i][j] == '#')
-          MVADDCH(i, j, ACS_BLOCK);
-        else
-          MVADDCH(i, j, ' ');
-    refresh();
-    napms(2000);
-  }
-}
-
-int read_banner(const game_info_t *stats, banner_t *banner) {
-  int rc = SUCCESS;
-  FILE *file = NULL;
-
-  if (stats->won)
-    file = fopen(YOU_WON, "r");
-  else
-    file = fopen(YOU_LOSE, "r");
-
-  if (file) {
-    for (int i = 0; i < BANNER_N - 1 && !rc; i++) {
-      if (fgets(banner->matrix[i], BANNER_M + 2, file) == NULL)
-        rc = ERROR;
-      else
-        banner->matrix[i][strcspn(banner->matrix[i], "\n")] = '\0';
-    }
-
-    fclose(file);
-  } else
-    rc = ERROR;
-
-  return rc;
-}
-
-void save_high_score(const game_info_t *tetris, brick_state *state) {
+void save_high_score(const brick_stats_t *tetris, brick_state *state) {
   FILE *file = fopen("high_score.txt", "w");
 
   if (!file) {
@@ -199,7 +117,7 @@ void print_field(const int field[TETRIS_N][TETRIS_M]) {
   }
 }
 
-void preview_next_figure(const game_info_t *field) {
+void preview_next_figure(const field_info_t *field) {
   int y = 15;
   int x = BOARD_X + 6;
 

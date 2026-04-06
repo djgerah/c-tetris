@@ -5,7 +5,7 @@
 
 START_TEST(test_level_up_1) {
   brick_state state = START;
-  game_info_t stats;
+  brick_stats_t stats;
 
   tetris_stats_init(&stats, &state);
 
@@ -16,7 +16,7 @@ END_TEST
 
 START_TEST(test_level_up_3) {
   brick_state state = START;
-  game_info_t stats;
+  brick_stats_t stats;
 
   tetris_stats_init(&stats, &state);
   stats.score = 1200;
@@ -28,7 +28,7 @@ END_TEST
 
 START_TEST(test_add_score_1_line) {
   brick_state state = START;
-  game_info_t stats;
+  brick_stats_t stats;
 
   tetris_stats_init(&stats, &state);
   add_score(1, &stats, &state);
@@ -39,7 +39,7 @@ END_TEST
 
 START_TEST(test_add_score_2_lines) {
   brick_state state = START;
-  game_info_t stats;
+  brick_stats_t stats;
 
   tetris_stats_init(&stats, &state);
   add_score(2, &stats, &state);
@@ -50,7 +50,7 @@ END_TEST
 
 START_TEST(test_add_score_3_lines) {
   brick_state state = START;
-  game_info_t stats;
+  brick_stats_t stats;
 
   tetris_stats_init(&stats, &state);
   add_score(3, &stats, &state);
@@ -61,7 +61,7 @@ END_TEST
 
 START_TEST(test_add_score_4_lines) {
   brick_state state = START;
-  game_info_t stats;
+  brick_stats_t stats;
 
   tetris_stats_init(&stats, &state);
   add_score(4, &stats, &state);
@@ -72,7 +72,7 @@ END_TEST
 
 START_TEST(test_add_score_win_instant) {
   brick_state state = START;
-  game_info_t stats;
+  brick_stats_t stats;
 
   tetris_stats_init(&stats, &state);
 
@@ -87,7 +87,7 @@ START_TEST(test_add_score_win_instant) {
 END_TEST
 
 START_TEST(test_check_collide_empty) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   bool result = check_collide(field.field, field.curr.pos.x,
@@ -98,7 +98,7 @@ START_TEST(test_check_collide_empty) {
 END_TEST
 
 START_TEST(test_check_collide_wall) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   bool result = check_collide(field.field, field.curr.pos.x - TETRIS_N,
@@ -109,7 +109,7 @@ START_TEST(test_check_collide_wall) {
 END_TEST
 
 START_TEST(test_check_collide_floor) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   bool result =
@@ -120,7 +120,7 @@ START_TEST(test_check_collide_floor) {
 END_TEST
 
 START_TEST(test_figure_dropping_true) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   bool result = figure_dropping(&field);
@@ -130,7 +130,7 @@ START_TEST(test_figure_dropping_true) {
 END_TEST
 
 START_TEST(test_figure_dropping_false) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   field.curr.pos.x = TETRIS_M / 2 - 2;
@@ -143,7 +143,7 @@ START_TEST(test_figure_dropping_false) {
 END_TEST
 
 START_TEST(test_shift_down) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   for (int col = 0; col < TETRIS_M; col++) {
@@ -190,7 +190,7 @@ START_TEST(test_transpose_matrix) {
 END_TEST
 
 START_TEST(test_stamp_figure) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
   int target[TETRIS_N][TETRIS_M] = {0};
 
@@ -211,7 +211,7 @@ START_TEST(test_stamp_figure) {
 END_TEST
 
 START_TEST(test_stamp_figure_out_of_bounds) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   int target[TETRIS_N][TETRIS_M] = {0};
@@ -233,7 +233,7 @@ START_TEST(test_stamp_figure_out_of_bounds) {
 END_TEST
 
 START_TEST(test_lock_figure) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_J;
@@ -252,7 +252,7 @@ START_TEST(test_lock_figure) {
 END_TEST
 
 START_TEST(test_overlay_active_figure) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_L;
@@ -271,7 +271,7 @@ START_TEST(test_overlay_active_figure) {
 END_TEST
 
 START_TEST(test_not_overlay_active_figure) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_L;
@@ -290,7 +290,7 @@ START_TEST(test_not_overlay_active_figure) {
 END_TEST
 
 START_TEST(test_update_field) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   /* SHAPE_J */
@@ -309,7 +309,7 @@ START_TEST(test_update_field) {
 END_TEST
 
 START_TEST(test_build_field) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   field.curr.type = SHAPE_T;
@@ -329,7 +329,7 @@ START_TEST(test_build_field) {
 END_TEST
 
 START_TEST(test_init_tetris_game) {
-  game_info_t field;
+  brick_stats_t field;
   init_tetris_game(&field);
 
   for (int i = 0; i < TETRIS_N; i++) {

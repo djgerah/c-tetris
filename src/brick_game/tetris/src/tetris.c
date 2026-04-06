@@ -17,7 +17,8 @@ int main() {
 }
 
 void tetris_game_loop() {
-  game_info_t field;
+  field_info_t field;
+  brick_stats_t stats;
   user_action_t action;
 
   bool break_flag = TRUE;
@@ -25,7 +26,7 @@ void tetris_game_loop() {
   int signal = 0;
   brick_state state = START;
 
-  update_current_state(&field, &state);
+  update_current_state(&stats, &field, &state);
 
   while (break_flag) {
     if (state == EXIT) {
@@ -33,7 +34,7 @@ void tetris_game_loop() {
     }
 
     user_input(&action, signal, hold);
-    sigact_tetris(&field, action, &state);
+    sigact_tetris(&stats, &field, action, &state);
 
     if (state == MOVING || state == SPAWN || state == PAUSED ||
         state == START || state == GAMEOVER || state == WIN) {

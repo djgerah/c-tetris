@@ -5,7 +5,7 @@
 
 #include "defines.h"
 
-typedef enum { frogger = 0, tetris } game_type;
+typedef enum { tetris = 0 } game_type;
 
 typedef enum {
   SHAPE_I = 0,
@@ -23,15 +23,6 @@ typedef struct {
 } pos_t;
 
 typedef struct {
-  char matrix[BANNER_N + 1][BANNER_M + 1];
-} banner_t;
-
-typedef struct {
-  char finish[BOARD_M + 2];
-  char ways[ROWS_MAP + 2][COLS_MAP + 2];
-} board_t;
-
-typedef struct {
   shape_type type;
   pos_t pos;
 
@@ -39,18 +30,20 @@ typedef struct {
 } figure_t;
 
 typedef struct {
-  int field[TETRIS_N][TETRIS_M];
-  int figures_placed[TETRIS_N][TETRIS_M];
-
-  figure_t curr;
-  figure_t next;
-
   int score;
   int high_score;
   int level;
   int speed;
   int lives;
   bool won;
-} game_info_t;
+} brick_stats_t;
+
+typedef struct {
+  int field[TETRIS_N][TETRIS_M];
+  int figures_placed[TETRIS_N][TETRIS_M];
+
+  figure_t curr;
+  figure_t next;
+} field_info_t;
 
 #endif
