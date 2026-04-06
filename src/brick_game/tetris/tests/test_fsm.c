@@ -97,11 +97,13 @@ END_TEST
 
 START_TEST(test_sigact_start) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = START;
 
-  sigact_tetris(&field, Start, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  sigact_tetris(&stats, &field, Start, &state);
 
   ck_assert_int_eq(state, SPAWN);
 }
@@ -109,11 +111,13 @@ END_TEST
 
 START_TEST(test_sigact_spawn) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = SPAWN;
 
-  sigact_tetris(&field, Nosig, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  sigact_tetris(&stats, &field, Nosig, &state);
 
   ck_assert(state == MOVING || state == GAMEOVER);
 }
@@ -121,11 +125,13 @@ END_TEST
 
 START_TEST(test_sigact_shifting) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = SHIFTING;
 
-  sigact_tetris(&field, Nosig, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  sigact_tetris(&stats, &field, Nosig, &state);
 
   ck_assert(state == MOVING || state == ATTACH);
 }
@@ -133,13 +139,13 @@ END_TEST
 
 START_TEST(test_sigact_attach) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = ATTACH;
 
-  tetris_stats_init(&field, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
 
-  sigact_tetris(&field, Nosig, &state);
+  sigact_tetris(&stats, &field, Nosig, &state);
 
   ck_assert_int_eq(state, SPAWN);
 }
@@ -147,11 +153,13 @@ END_TEST
 
 START_TEST(test_gameover_restart) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = GAMEOVER;
 
-  on_gameover_state_tetris(&field, Start, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  on_gameover_state_tetris(&stats, &field, Start, &state);
 
   ck_assert_int_eq(state, START);
 }
@@ -159,11 +167,13 @@ END_TEST
 
 START_TEST(test_on_gameover_state_escape) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = GAMEOVER;
 
-  on_gameover_state_tetris(&field, Terminate, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  on_gameover_state_tetris(&stats, &field, Terminate, &state);
 
   ck_assert_int_eq(state, EXIT);
 }
@@ -171,11 +181,13 @@ END_TEST
 
 START_TEST(test_on_gameover_state) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = GAMEOVER;
 
-  on_gameover_state_tetris(&field, Nosig, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  on_gameover_state_tetris(&stats, &field, Nosig, &state);
 
   ck_assert_int_eq(state, GAMEOVER);
 }
@@ -357,13 +369,13 @@ END_TEST
 
 START_TEST(test_on_attach_state) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = ATTACH;
 
-  tetris_stats_init(&field, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
 
-  on_attach_state_tetris(&field, &state);
+  on_attach_state_tetris(&stats, &field, &state);
 
   ck_assert_int_eq(state, SPAWN);
 }
@@ -371,11 +383,13 @@ END_TEST
 
 START_TEST(test_on_exit_state) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = EXIT;
 
-  on_exit_state_tetris(&field, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  on_exit_state_tetris(&stats, &field, &state);
 
   ck_assert_int_eq(state, EXIT);
 }
@@ -394,11 +408,13 @@ END_TEST
 
 START_TEST(test_on_moving_state_action) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = MOVING;
 
-  on_moving_state_tetris(&field, Action, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  on_moving_state_tetris(&stats, &field, Action, &state);
 
   ck_assert_int_eq(state, MOVING);
 }
@@ -406,11 +422,13 @@ END_TEST
 
 START_TEST(test_on_moving_state_pause) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = MOVING;
 
-  on_moving_state_tetris(&field, Pause, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  on_moving_state_tetris(&stats, &field, Pause, &state);
 
   ck_assert_int_eq(state, PAUSED);
 }
@@ -418,13 +436,13 @@ END_TEST
 
 START_TEST(test_on_moving_state_tetris_Nosig) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = MOVING;
 
-  tetris_stats_init(&field, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
 
-  on_moving_state_tetris(&field, Nosig, &state);
+  on_moving_state_tetris(&stats, &field, Nosig, &state);
 
   ck_assert_int_eq(state, SHIFTING);
 }
@@ -432,13 +450,15 @@ END_TEST
 
 START_TEST(test_on_moving_state_move_left) {
   field_info_t field;
+  brick_stats_t stats;
+  brick_state state = MOVING;
 
   init_tetris_game(&field);
-  brick_state state = MOVING;
+  tetris_stats_init(&stats, &state);
 
   int x = field.curr.pos.x;
 
-  on_moving_state_tetris(&field, Left, &state);
+  on_moving_state_tetris(&stats, &field, Left, &state);
 
   ck_assert_int_eq(field.curr.pos.x, x - 1);
 }
@@ -446,13 +466,15 @@ END_TEST
 
 START_TEST(test_on_moving_state_move_right) {
   field_info_t field;
+  brick_stats_t stats;
+  brick_state state = MOVING;
 
   init_tetris_game(&field);
-  brick_state state = MOVING;
+  tetris_stats_init(&stats, &state);
 
   int x = field.curr.pos.x;
 
-  on_moving_state_tetris(&field, Right, &state);
+  on_moving_state_tetris(&stats, &field, Right, &state);
 
   ck_assert_int_eq(field.curr.pos.x, x + 1);
 }
@@ -460,11 +482,13 @@ END_TEST
 
 START_TEST(test_on_moving_state_hard_drop) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = MOVING;
 
-  on_moving_state_tetris(&field, Hard_drop, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  on_moving_state_tetris(&stats, &field, Hard_drop, &state);
 
   ck_assert_int_eq(state, ATTACH);
 }
@@ -472,13 +496,15 @@ END_TEST
 
 START_TEST(test_on_moving_state_down) {
   field_info_t field;
+  brick_stats_t stats;
+  brick_state state = MOVING;
 
   init_tetris_game(&field);
-  brick_state state = MOVING;
+  tetris_stats_init(&stats, &state);
 
   int y = field.curr.pos.y;
 
-  on_moving_state_tetris(&field, Down, &state);
+  on_moving_state_tetris(&stats, &field, Down, &state);
 
   ck_assert_int_eq(field.curr.pos.y, y + 1);
   ck_assert_int_eq(state, MOVING);
@@ -487,11 +513,13 @@ END_TEST
 
 START_TEST(test_on_moving_state_escape) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = MOVING;
 
-  on_moving_state_tetris(&field, Terminate, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  on_moving_state_tetris(&stats, &field, Terminate, &state);
 
   ck_assert_int_eq(state, EXIT);
 }
@@ -508,11 +536,13 @@ END_TEST
 
 START_TEST(test_sigact_moving) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = MOVING;
 
-  sigact_tetris(&field, Pause, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  sigact_tetris(&stats, &field, Pause, &state);
 
   ck_assert_int_eq(state, PAUSED);
 }
@@ -520,11 +550,13 @@ END_TEST
 
 START_TEST(test_sigact_paused) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = PAUSED;
 
-  sigact_tetris(&field, Pause, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  sigact_tetris(&stats, &field, Pause, &state);
 
   ck_assert_int_eq(state, MOVING);
 }
@@ -532,11 +564,13 @@ END_TEST
 
 START_TEST(test_sigact_gameover) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = GAMEOVER;
 
-  sigact_tetris(&field, Terminate, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  sigact_tetris(&stats, &field, Terminate, &state);
 
   ck_assert_int_eq(state, EXIT);
 }
@@ -544,11 +578,13 @@ END_TEST
 
 START_TEST(test_sigact_exit) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = EXIT;
 
-  sigact_tetris(&field, Nosig, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  sigact_tetris(&stats, &field, Nosig, &state);
 
   ck_assert_int_eq(state, EXIT);
 }
@@ -556,11 +592,13 @@ END_TEST
 
 START_TEST(test_on_win_state_restart) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = WIN;
 
-  on_win_state_tetris(&field, Start, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  on_win_state_tetris(&stats, &field, Start, &state);
 
   ck_assert_int_eq(state, START);
 }
@@ -568,11 +606,13 @@ END_TEST
 
 START_TEST(test_on_win_state_exit) {
   field_info_t field;
-
-  init_tetris_game(&field);
+  brick_stats_t stats;
   brick_state state = WIN;
 
-  on_win_state_tetris(&field, Terminate, &state);
+  init_tetris_game(&field);
+  tetris_stats_init(&stats, &state);
+
+  on_win_state_tetris(&stats, &field, Terminate, &state);
 
   ck_assert_int_eq(state, EXIT);
 }
